@@ -1,3 +1,4 @@
+import { filter, find, map, max } from "lodash";
 import { atom, selector } from "recoil";
 import { ICartItem, IProduct } from "../types/cart";
 
@@ -30,15 +31,15 @@ export const addToCart = (
   product: IProduct,
   quantity: number = 1
 ): ICartItem[] => {
-  const existingItem = cart.find((item) => item.product.id === product.id);
+  const existingItem = find(cart, (item) => item.product.id === product.id);
   if (existingItem) {
-    return cart.map((item) =>
+    return map(cart, (item) =>
       item.product.id === product.id
-        ? { ...item, quantity: item.quantity + quantity }
+        ? { ...item, quantity: item.quantity + quantity } 
         : item
     );
   }
-  return [...cart, { product, quantity }];
+  return [...cart, { product, quantity: quantity || 1 }]; 
 };
 
 export const updateCartQuantity = (
@@ -46,13 +47,13 @@ export const updateCartQuantity = (
   productId: number,
   quantity: number
 ): ICartItem[] => {
-  return cart.map((item) =>
+  return map(cart, (item) =>
     item.product.id === productId
-      ? { ...item, quantity: Math.max(1, quantity) }
+      ? { ...item, quantity: max([1, quantity]) || 1 } 
       : item
   );
 };
 
 export const removeFromCart = (cart: ICartItem[], productId: number): ICartItem[] => {
-  return cart.filter((item) => item.product.id !== productId);
+  return filter(cart, (item) => item.product.id !== productId); 
 };

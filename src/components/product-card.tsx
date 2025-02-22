@@ -35,10 +35,6 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
           </div>
           <button
             className="!bg-white text-black px-4 py-2 !rounded-3xl font-semibold shadow-md border border-gray-300 hover:bg-gray-100"
-            onClick={(e) => {
-              e.stopPropagation();
-              alert("Thêm vào giỏ hàng!");
-            }}
           >
             Mua ngay
           </button>

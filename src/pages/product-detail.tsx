@@ -1,66 +1,65 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { find } from "lodash";
+import React, { useEffect, useMemo, useState } from "react";
 import { IoMdStar } from "react-icons/io";
-import { useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { addToCart, cartState, updateCartQuantity } from "../state/cartState";
-import { IProduct } from "../types/cart";
-import CartIcon from "./cart-icon";
-import CartModal from "./cart-modal";
-import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { LuTag } from "react-icons/lu";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+import { useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { getDetailProduct } from "../api";
+import CartIcon from "../components/cart-icon";
+import CartModal from "../components/cart-modal";
+import {
+  addToCart,
+  cartCountState,
+  cartState,
+  cartTotalState,
+  updateCartQuantity,
+} from "../state/cart-state";
+import { IProduct } from "../types/cart";
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<IProduct | null>(null);
+  const [product, setProduct] = useState<IProduct>();
   const [isBuying, setIsBuying] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cart, setCart] = useRecoilState(cartState);
-  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const cartTotal = useRecoilValue(cartTotalState);
+  const cartCount = useRecoilValue(cartCountState);
+
+  const foundItem = useMemo(
+    () => find(cart, (item) => item.product.id === Number(id)),
+    [cart, id]
+  );
+
+  useEffect(() => {
+    if (foundItem) setQuantity(foundItem.quantity);
+    else {
+      setIsBuying(false);
+      setQuantity(1);
+    }
+  }, [foundItem]);
+
   useEffect(() => {
     if (!id) return;
-
-    setLoading(true);
-    axios
-      .get(`https://fakestoreapi.com/products/${id}`)
-      .then((response) => setProduct(response.data))
-      .catch((error) => console.error("Lỗi khi lấy chi tiết sản phẩm:", error))
-      .finally(() => setLoading(false));
+    getDetailProduct(id)
+      .then(setProduct)
+      .catch((error) => console.error("Lỗi khi lấy chi tiết sản phẩm:", error));
   }, [id]);
 
-  if (loading) return <div>Đang tải...</div>;
-  if (!product) return <div>Không tìm thấy sản phẩm</div>;
+  if (!product) return <div>Đang tải...</div>;
 
   const handleBuyNow = () => {
     setIsBuying(true);
-    setCart((prevCart) => addToCart(prevCart, product, quantity));
+    setCart(addToCart(cart, product, quantity));
   };
 
-  const increaseQuantity = () => {
-    setQuantity((prev) => {
-      const newQuantity = prev + 1;
-      setCart((prevCart) =>
-        updateCartQuantity(prevCart, product.id, newQuantity)
-      );
-      return newQuantity;
-    });
-  };
-
-  const decreaseQuantity = () => {
-    setQuantity((prev) => {
-      const newQuantity = Math.max(1, prev - 1);
-      setCart((prevCart) =>
-        updateCartQuantity(prevCart, product.id, newQuantity)
-      );
-      return newQuantity;
-    });
-  };
-
-  const handleToggle = () => {
-    setIsExpanded((prev) => !prev);
+  const changeQuantity = (amount: number) => {
+    const newQuantity = Math.max(1, quantity + amount);
+    setQuantity(newQuantity);
+    setCart(updateCartQuantity(cart, product.id, newQuantity));
   };
 
   return (
@@ -69,7 +68,7 @@ const ProductDetail: React.FC = () => {
         <img
           src={product.image}
           alt={product.title}
-          className=" h-[480px] w-84"
+          className=" h-96 w-84"
         />
         <span className="absolute top-2 right-2 bg-green-600 text-white text-xs px-3 py-1 rounded-full flex items-center">
           <LuTag className="mr-1" /> {product.category}
@@ -110,7 +109,7 @@ const ProductDetail: React.FC = () => {
           </p>
           <div
             className="text-xs font-medium text-green-600 flex items-center justify-center cursor-pointer"
-            onClick={handleToggle}
+            onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? (
               <>
@@ -125,13 +124,13 @@ const ProductDetail: React.FC = () => {
         </div>
       </div>
       {isBuying && (
-          <div
+        <div
           className="fixed bottom-18 right-6"
-            onClick={() => setIsCartOpen(true)}
-          >
-            <CartIcon itemCount={quantity} />
-          </div>
-        )}
+          onClick={() => setIsCartOpen(true)}
+        >
+          <CartIcon itemCount={cartCount} />
+        </div>
+      )}
       <div className="bg-white p-4 fixed bottom-0 left-0 w-full h-16 flex items-center justify-center">
         {!isBuying ? (
           <button
@@ -143,19 +142,19 @@ const ProductDetail: React.FC = () => {
         ) : (
           <div className="flex w-full items-center justify-between">
             <span className="text-green-600 font-bold text-lg">
-              {(product.price * quantity).toLocaleString()} Đ
+              {cartTotal.toLocaleString()} Đ
             </span>
 
             <div className="flex items-center">
               <button
-                onClick={decreaseQuantity}
+                onClick={() => changeQuantity(-1)}
                 className="rounded-md text-lg border !border-green-600 !bg-white !text-green-600"
               >
                 -
               </button>
               <span className="mx-6 text-lg text-gray-900">{quantity}</span>
               <button
-                onClick={increaseQuantity}
+                onClick={() => changeQuantity(1)}
                 className="rounded-md text-lg !bg-green-600 !text-green-60"
               >
                 +
@@ -164,7 +163,11 @@ const ProductDetail: React.FC = () => {
           </div>
         )}
       </div>
-       <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart}/>
+      <CartModal
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cart}
+      />
     </div>
   );
 };

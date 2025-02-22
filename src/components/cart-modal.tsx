@@ -1,9 +1,8 @@
 import React from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { ICartItem } from "../types/cart";
 import { useRecoilState } from "recoil";
-import { cartState } from "../state/cartState";
-
+import { cartState, removeFromCart } from "../state/cart-state";
+import { ICartItem } from "../types/cart";
 interface CartModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -11,11 +10,10 @@ interface CartModalProps {
 }
 
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, items }) => {
-  const [, setCart] = useRecoilState(cartState);
+  const [cart, setCart] = useRecoilState(cartState);
   const handleRemoveItem = (productId: number) => {
-    setCart((prevCart) =>
-      prevCart.filter((item) => item.product.id !== productId)
-    );
+    const updatedCart = removeFromCart(cart, productId);
+    setCart(updatedCart);
   };
 
   if (!isOpen) return null;

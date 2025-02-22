@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import CartIcon from "./cart-icon";
 import CartModal from "./cart-modal";
-import { useRecoilState } from "recoil";
-import { cartState } from "../state/cartState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { cartCountState, cartState } from "../state/cart-state";
 
 const Header: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cart] = useRecoilState(cartState);
+  const cartCount = useRecoilValue(cartCountState);
   return (
     <div className="relative p-4 text-white h-42">
       <div
@@ -24,7 +25,7 @@ const Header: React.FC = () => {
         <p className="text-sm text-gray-900 font-semibold">Chào buổi sáng ☀️</p>
         <h2 className="text-2xl font-bold text-gray-900 font-semibold">Nguyễn Văn B</h2>
         <div className="absolute top-2 right-4" onClick={() => setIsCartOpen(true)}>
-          <CartIcon itemCount={cart.length} />
+          <CartIcon itemCount={cartCount} />
         </div>
       </div>
       <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart}/>
