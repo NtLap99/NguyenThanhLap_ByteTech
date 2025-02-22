@@ -95,7 +95,7 @@ const ProductDetail: React.FC = () => {
         </div>
         <div className="p-4 rounded-lg m-3 border border-gray-200">
           <h3 className="font-bold text-sm text-gray-900">Mô tả sản phẩm</h3>
-          <div
+          <p
             className={`text-gray-600 text-sm mt-1 ${
               !isExpanded ? "line-clamp-3" : ""
             }`}
@@ -104,11 +104,10 @@ const ProductDetail: React.FC = () => {
               WebkitLineClamp: isExpanded ? "unset" : 3,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
-              ...(isExpanded ? { height: "100px", overflowY: "auto" } : {}), // Conditional styles
             }}
           >
             {product.description}
-          </div>
+          </p>
           <div
             className="text-xs font-medium text-green-600 flex items-center justify-center cursor-pointer"
             onClick={handleToggle}
@@ -126,13 +125,13 @@ const ProductDetail: React.FC = () => {
         </div>
       </div>
       {isBuying && (
-        <div
+          <div
           className="fixed bottom-18 right-6"
-          onClick={() => setIsCartOpen(true)}
-        >
-          <CartIcon itemCount={quantity} />
-        </div>
-      )}
+            onClick={() => setIsCartOpen(true)}
+          >
+            <CartIcon itemCount={quantity} />
+          </div>
+        )}
       <div className="bg-white p-4 fixed bottom-0 left-0 w-full h-16 flex items-center justify-center">
         {!isBuying ? (
           <button
@@ -165,11 +164,7 @@ const ProductDetail: React.FC = () => {
           </div>
         )}
       </div>
-      <CartModal
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cart}
-      />
+       <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart}/>
     </div>
   );
 };
