@@ -13,7 +13,7 @@ const Header: React.FC = () => {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: "url('/cover.png')",
+          backgroundImage: "url('/header.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundBlendMode: "overlay",
