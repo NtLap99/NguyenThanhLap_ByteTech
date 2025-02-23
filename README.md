@@ -1,50 +1,32 @@
-# React + TypeScript + Vite
+Nguyen Thanh Lap - ByteTech
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live Demo: https://nguyen-thanh-lap-byte-tech.vercel.app/
+Figma Design: https://www.figma.com/design/QTuuIRCjx8ueL0T9Dp9du0/Untitled?node-id=0-1&m=dev&t=hVTsbNUcuavT4LQg-1
+GitHub Repository: https://github.com/NtLap99/NguyenThanhLap_ByteTech
 
-Currently, two official plugins are available:
+Tech Stack
+Frontend: React + TypeScript  
+Styling: Tailwind CSS  
+State Management: Recoil  
+Utilities: Lodash  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Getting Started
 
-## Expanding the ESLint configuration
+Install Dependencies
+Yêu cầu: Sử dụng Node.js v18
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+nvm install 18
+nvm use 18
 
-- Configure the top-level `parserOptions` property like this:
+Sau đó, cài đặt các package bằng một trong các lệnh sau:  
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+npm install   # hoặc yarn install / pnpm install / bun install
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Run Development Server
+Sau khi cài đặt xong, chạy lệnh để khởi động server:  
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+npm run dev  # hoặc yarn dev / pnpm dev / bun dev
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Mở trình duyệt và truy cập : http://localhost:5173 để xem kết quả.  
+
+

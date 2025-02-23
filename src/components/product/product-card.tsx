@@ -1,7 +1,7 @@
 import React from "react";
 import { LuTag } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
-import { IProduct } from "../types/cart";
+import { IProduct } from "../../types/cart";
 
 const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
   const navigate = useNavigate();

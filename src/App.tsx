@@ -2,8 +2,8 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import './App.css';
-import ProductDetail from "./pages/product-detail";
-import ProductList from "./pages/product-list";
+import ProductDetail from "./pages/product/detail";
+import ProductList from "./pages/product";
 
 const router = createBrowserRouter([
   { path: "/", element: <ProductList /> },

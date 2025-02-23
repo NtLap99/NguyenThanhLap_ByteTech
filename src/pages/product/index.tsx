@@ -1,10 +1,10 @@
-import map from "lodash/map";
+import { map } from "lodash";
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../api";
-import Header from "../components/header";
-import ProductCard from "../components/product-card";
-import WebViewNotice from "../components/web-view-notice";
-import { IProduct } from "../types/cart";
+import { getProducts } from "../../api";
+import WebViewNotice from "../../components/common/web-view-notice";
+import Header from "../../components/header/header";
+import ProductCard from "../../components/product/product-card";
+import { IProduct } from "../../types/cart";
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);

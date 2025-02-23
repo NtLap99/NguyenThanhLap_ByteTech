@@ -5,18 +5,18 @@ import { LuTag } from "react-icons/lu";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getDetailProduct } from "../api";
-import CartIcon from "../components/cart-icon";
-import CartModal from "../components/cart-modal";
-import WebViewNotice from "../components/web-view-notice";
+import { getDetailProduct } from "../../api";
+import CartIcon from "../../components/cart/cart-icon";
+import CartModal from "../../components/cart/cart-modal";
+import WebViewNotice from "../../components/common/web-view-notice";
 import {
   addToCart,
   cartCountState,
   cartState,
   cartTotalState,
   updateCartQuantity,
-} from "../state/cart-state";
-import { IProduct } from "../types/cart";
+} from "../../state/cate/cart-state";
+import { IProduct } from "../../types/cart";
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -122,7 +122,7 @@ const ProductDetail: React.FC = () => {
       </div>
       {isBuying && (
         <div
-          className="fixed bottom-18 right-4 w-full flex justify-end px-4 lg:hidden"
+          className="fixed bottom-18 right-4 hover:scale-105 active:scale-95 cursor-pointer  px-4 lg:hidden"
           onClick={() => setIsCartOpen(true)}
         >
           <CartIcon itemCount={cartCount} />

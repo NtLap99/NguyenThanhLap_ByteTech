@@ -1,8 +1,8 @@
 import React from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { useRecoilState } from "recoil";
-import { cartState, removeFromCart } from "../state/cart-state";
-import { ICartItem } from "../types/cart";
+import { cartState, removeFromCart } from "../../state/cate/cart-state";
+import { ICartItem } from "../../types/cart";
 interface CartModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -26,7 +26,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, items }) => {
       ></div>
       <div className="bg-white w-full pb-4 pt-2 px-4 rounded-t-2xl shadow-lg relative max-w-md">
         <div
-          className="absolute text-gray-600 left-48 w-16 !h-2 bg-gray-200 rounded-xl"
+          className="absolute text-gray-600 left-1/2 -translate-x-1/2 w-16 !h-2 bg-gray-200 rounded-xl"
           onClick={onClose}
         />
         <h2 className="text-lg font-semibold mb-2 text-gray-900 mt-4">

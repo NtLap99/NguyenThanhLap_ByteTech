@@ -1,6 +1,6 @@
 import { filter, find, map, max } from "lodash";
 import { atom, selector } from "recoil";
-import { ICartItem, IProduct } from "../types/cart";
+import { ICartItem, IProduct } from "../../types/cart";
 
 export const cartState = atom<ICartItem[]>({
   key: "cartState",

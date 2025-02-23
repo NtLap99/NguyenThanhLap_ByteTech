@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { cartCountState, cartState } from "../state/cart-state";
-import CartIcon from "./cart-icon";
-import CartModal from "./cart-modal";
+import { cartCountState, cartState } from "../../state/cate/cart-state";
+import CartIcon from "../cart/cart-icon";
+import CartModal from "../cart/cart-modal";
 
 const Header: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -13,7 +13,7 @@ const Header: React.FC = () => {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: "url('/Cover.png')",
+          backgroundImage: "url('/cover.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundBlendMode: "overlay",
@@ -30,7 +30,7 @@ const Header: React.FC = () => {
           Nguyễn Văn B
         </h2>
         <div
-          className="absolute top-2 right-4"
+          className="absolute top-2 right-4 hover:scale-105 active:scale-95 cursor-pointer"
           onClick={() => setIsCartOpen(true)}
         >
           <CartIcon itemCount={cartCount} />
