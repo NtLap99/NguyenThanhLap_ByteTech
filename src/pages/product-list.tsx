@@ -18,7 +18,7 @@ const ProductList: React.FC = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header />
-      <div className="grid grid-cols-1 gap-6 lg:hidden">
+      <div className="grid grid-cols-1 gap-6 lg:hidden -mt-2">
         {map(products, (product: IProduct) => (
           <ProductCard key={product.id} product={product} />
         ))}
